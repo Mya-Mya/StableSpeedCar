@@ -1,7 +1,7 @@
 classdef GdOptimizer
 
     properties
-        slopedata = Slopedata();
+        slopedata;
         x0;
         delta_t;
         max_k;
@@ -18,12 +18,13 @@ classdef GdOptimizer
     end
     
     methods
-        function obj = GdOptimizer(x0,delta_t,max_k,vref)
+        function obj = GdOptimizer(x0,delta_t,max_k,vref,slopedata)
             obj.x0 = x0;
             obj.delta_t = delta_t;
             obj.max_k = max_k;
             obj.k_s = 1:max_k;
             obj.vref = vref;
+            obj.slopedata = slopedata;
 
             obj.adam = Adam(max_k);
 
