@@ -14,6 +14,8 @@ classdef GdOptimizer
         Honu_s;
         Honu_integral;
 
+        penalty_for_u;
+
         adam;
     end
     
@@ -25,6 +27,8 @@ classdef GdOptimizer
             obj.k_s = 1:max_k;
             obj.vref = vref;
             obj.slopedata = slopedata;
+
+            obj.penalty_for_u = 1e3;
 
             obj.adam = Adam(max_k);
 
@@ -66,7 +70,9 @@ classdef GdOptimizer
 
         function obj = step4(obj)
             % H_on_u を求める
-            obj.Honu_s = obj.lambda_s(:,2)'+2*obj.u_s;
+            obj.Honu_s = ...
+                obj.lambda_s(:,2)'+ ...
+                2*obj.penalty_for_u*obj.u_s.*(obj.u_s.^2>0.04);
             obj.Honu_integral = sum(obj.Honu_s.^2);
         end
 
